@@ -34,14 +34,14 @@ La mediana real se desplaza a **$10,308 MXN** al integrar las prestaciones. Sin 
 
 
 ### 2. Diagnóstico Global de la Cartera
-Bajo un DTI del 40%, la cartera muestra un quiebre estructural. El **24.1% en Mora Técnica** representa una pérdida esperada masiva si no se ajustan las políticas de originación.
+Bajo un DTI del 40%, la cartera muestra un quiebre estructural. El **24.0% en Mora Técnica** representa una pérdida esperada masiva si no se ajustan las políticas de originación.
 
 <img width="777" height="550" alt="image" src="https://github.com/user-attachments/assets/b45dde94-ca4a-4d6d-8eb4-f40579245f4d" />
 
 
 
 ### 3. Probabilidad de Default (PD) por Decil
-El hallazgo más crítico es la **contaminación del Decil 2**. Mientras que en créditos de consumo el riesgo se limitaba a la base extrema, en créditos patrimoniales el **41.2% de los trabajadores especializados** entra en insolvencia.
+El hallazgo más crítico es la **contaminación del Decil 2**. Mientras que en créditos de consumo el riesgo se limitaba a la base extrema, en créditos patrimoniales el **40.5% de los trabajadores especializados** entra en insolvencia.
 
 <img width="854" height="565" alt="image" src="https://github.com/user-attachments/assets/bf10c837-a8ff-4f86-8fd5-b61b040f9bb8" />
 
