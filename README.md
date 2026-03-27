@@ -1,73 +1,58 @@
-# 🛡️ Detección de Fraude en Transacciones Financieras | IEEE-CIS
+# 📊 Stress Test de Cartera de Crédito: León 2026
+### Análisis de Riesgo Crediticio ante Choques Inflacionarios y Canasta Básica
 
-[![Python](https://img.shields.io/badge/Python-3.9+-blue.svg)](https://www.python.org/downloads/)
-[![XGBoost](https://img.shields.io/badge/Model-XGBoost-orange.svg)](https://xgboost.readthedocs.io/)
-[![DuckDB](https://img.shields.io/badge/Data_Engine-DuckDB-yellow.svg)](https://duckdb.org/)
-[![Kaggle](https://img.shields.io/badge/Dataset-Kaggle-blue.svg)](https://www.kaggle.com/competitions/ieee-fraud-detection/data)
+Este proyecto utiliza **Data Science** y **Modelado Financiero** para evaluar la resiliencia de una cartera de **100,000 socios** en León, Guanajuato, frente a un escenario de estrés macroeconómico en marzo de 2026.
 
-## 📝 Resumen Ejecutivo
-Este repositorio presenta un sistema de detección de fraude transaccional de **grado bancario**. A diferencia de los modelos académicos, este pipeline implementa ingeniería de variables de **Velocity**, manejo de desbalanceo de clases mediante `scale_pos_weight` y validación de riesgo a través de la **Estadística KS** y el **Coeficiente Gini**.
-
-## 📂 Dataset
-El modelo utiliza los datos de la competencia **IEEE-CIS Fraud Detection**. 
-Puedes acceder y descargar los archivos directamente desde Kaggle:
-
-🔗 [IEEE-CIS Fraud Detection Dataset](https://www.kaggle.com/competitions/ieee-fraud-detection/data)
-
-> **Nota:** El dataset se compone de dos tablas principales (`train_transaction` y `train_identity`) que fueron unidas mediante el `TransactionID`.
-
-## 🚀 Key Highlights
-- **Ingeniería de Datos High-Performance:** Uso de **DuckDB** para procesar millones de registros y calcular métricas de frecuencia (Velocity) en milisegundos.
-- **Métricas de Riesgo:** Logro de un **KS de 0.45** (Modelo Muy Fuerte) y un **Gini de 0.59**.
-- **Explicabilidad:** Implementación de **SHAP** para eliminar el efecto "caja negra" y entender los disparadores del fraude.
+## 🎯 Objetivo
+Determinar el impacto de un **DTI (Debt-to-Income) del 30%** y una inflación quincenal de **0.62%** sobre la capacidad de pago de la base operativa (industria automotriz y del calzado), considerando el costo real de la canasta básica de **CONEVAL ($4,877.87)**.
 
 ---
 
-## 🔍 Análisis Criminalístico (EDA)
-El análisis reveló patrones de ataque específicos que el modelo aprendió a identificar:
-- **La Ventana de Riesgo:** Se detectó una anomalía matutina (07:00 - 10:00 AM) donde la probabilidad de fraude se triplica.
-- **Comportamiento del Monto:** Los estafadores utilizan montos redondeados para "testear" tarjetas, lo que se convirtió en nuestra variable más predictiva: `is_round_amount`.
-
-<img width="1000" height="466" alt="image" src="https://github.com/user-attachments/assets/1d804580-edaf-4be1-b559-23c49cc65dac" />
-
+## 🛠️ Metodología y Datos
+- **Muestra:** 100,000 registros sintéticos basados en la distribución salarial de León (ENOE).
+- **Filtro de Bancarización:** Se excluyeron ingresos menores a **$4,800** (pobreza extrema).
+- **Ingreso Integral:** Se aplicó un ajuste del **12% por vales de despensa** y prestaciones a ingresos menores a $9,500.
+- **Variables de Estrés:** Canasta básica ajustada mensualmente + Cuotas de crédito patrimonial.
 
 ---
 
-## 🧠 Modelado y Validación de Riesgo
+## 📈 Visualización de Resultados
 
-### Estrategia de Entrenamiento
-Para evitar el **Data Leakage**, se utilizó un **Time-based Split (80/20)**, asegurando que el modelo se entrene con el pasado para predecir el futuro, tal como sucede en un banco real.
+### 1. Perfil Salarial de la Población
+La distribución muestra un sesgo hacia la izquierda, reflejando que la mayoría de los socios son trabajadores operativos. La **Mediana Integral ($10,308)** incluye el ajuste de vales de despensa.
 
-### Performance del Modelo
-| Métrica | Resultado | Valor de Negocio |
-| :--- | :--- | :--- |
-| **Gini** | **0.59** | Alta capacidad de discriminación entre clientes. |
-| **KS Stat** | **0.45** | Supera el estándar de la industria (0.40). |
-| **Punto de Corte** | **0.4474** | Umbral óptimo para maximizar el ahorro económico. |
-
-<img width="750" height="543" alt="image" src="https://github.com/user-attachments/assets/45e4f25b-0c11-49b0-a462-7961542129d4" />
+<img width="902" height="566" alt="image" src="https://github.com/user-attachments/assets/cb06e9ad-745a-490a-a0dd-31fd078dc32e" />
 
 
-### Matriz de Confusión (Impacto Operativo)
-Con el umbral de **0.4474**, el modelo logra atrapar el **~73% del fraude** detectado en el set de prueba.
+### 2. Estatus de Salud de la Cartera
+El modelo clasifica a los socios en tres categorías según su excedente financiero tras pagar comida y deuda:
+- **Sano:** Excedente > $1,000.
+- **Riesgo Crítico:** Excedente entre $0 y $1,000.
+- **Mora Técnica:** Ingreso insuficiente para cubrir necesidades básicas y crédito.
 
-<img width="587" height="453" alt="image" src="https://github.com/user-attachments/assets/fbbb118b-5ea4-4c4f-9c31-a98a7ebb432b" />
-
----
+<img width="777" height="550" alt="image" src="https://github.com/user-attachments/assets/2e28d651-3b85-4081-b781-f83d8df64d34" />
 
 
-## 🧪 Explicabilidad con SHAP
-El modelo basa sus decisiones en patrones lógicos y auditables:
-1. **`is_round_amount`**: Principal factor de riesgo.
-2. **`amt_to_mean_card1`**: Identifica desviaciones súbitas del gasto habitual del cliente.
-3. **`card1_cnt`**: La historia transaccional reduce el score de riesgo (Factor de Confianza).
+### 3. Probabilidad de Default (PD) por Decil
+El análisis por deciles revela que el riesgo no es lineal. El **Decil 0 y 1** concentran la mayor vulnerabilidad, demostrando que el estándar bancario del 30% de DTI es insostenible para estos niveles de ingreso en entornos inflacionarios.
 
-<img width="670" height="440" alt="image" src="https://github.com/user-attachments/assets/7371e223-0a38-44b5-9bef-ab64e5c94ff1" />
+<img width="854" height="565" alt="image" src="https://github.com/user-attachments/assets/598e3be1-e8e4-4475-a100-7b64e04b8192" />
 
 
 ---
 
-## 🛠️ Estructura del Proyecto
-- `notebooks/Detección de Fraude(XBoost).ipynb`: Procesamiento masivo de datos; Entrenamiento, KS, Gini y SHAP; Matriz de Confusión
+## 🔍 Conclusiones Estratégicas
+1. **Punto de Ruptura:** Los socios con ingresos menores a **$8,500** presentan una probabilidad de default superior al 30% cuando su deuda alcanza el 30% de su ingreso integral.
+2. **Efecto Inflación:** El incremento de la canasta básica actúa como un "impuesto regresivo" que reduce el margen de maniobra de la clase trabajadora de León a menos de **$1,000 MXN mensuales**.
+3. **Recomendación de Política:** Implementar un **DTI Diferenciado**. Limitar el endeudamiento al **20%** para los Deciles 0-1 y permitir el **30-35%** solo a partir del Decil 3 ($11,500+).
 
 ---
+
+## 💻 Tecnologías Utilizadas
+- **Python 3.x**
+- **Pandas** (Procesamiento de datos)
+- **NumPy** (Simulación estocástica)
+- **Matplotlib / Seaborn** (Visualización avanzada)
+
+---
+**Escenario:** Marzo 2026 | León, Gto.
